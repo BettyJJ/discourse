@@ -34,11 +34,7 @@ export default class ChatComposerWarningsTracker extends Service {
 
   @bind
   reset() {
-    this.unreachableGroupMentions = [];
-    this.unreachableGroupMentions = [];
-    this.overMembersLimitGroupMentions = [];
-    this.tooManyMentions = false;
-    this.channelWideMentionDisallowed = false;
+    this.#resetMentionStats();
     this.mentionsCount = 0;
     cancel(this.mentionsTimer);
   }
