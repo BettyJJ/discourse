@@ -87,12 +87,16 @@ export default class ChatComposerWarningsTracker extends Service {
           }
         }
       } else {
-        this.tooManyMentions = false;
-        this.channelWideMentionDisallowed = false;
-        this.unreachableGroupMentions = [];
-        this.overMembersLimitGroupMentions = [];
+        this.#resetMentionStats();
       }
     });
+  }
+
+  #resetMentionStats() {
+    this.tooManyMentions = false;
+    this.channelWideMentionDisallowed = false;
+    this.unreachableGroupMentions = [];
+    this.overMembersLimitGroupMentions = [];
   }
 
   _recordNewWarnings(newMentions, mentions) {
