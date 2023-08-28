@@ -63,8 +63,8 @@ export default class ChatComposerWarningsTracker extends Service {
       return;
     }
 
-    message.cook().then(() => {
-      const mentions = this._extractMentions(currentMessage.message.message);
+    currentMessage.cook().then(() => {
+      const mentions = parseMentionedUsernames(currentMessage.cooked);
       this.mentionsCount = mentions?.length;
 
       if (this.mentionsCount > 0) {
@@ -93,30 +93,6 @@ export default class ChatComposerWarningsTracker extends Service {
         this.overMembersLimitGroupMentions = [];
       }
     });
-  }
-
-  _extractMentions(message) {
-    const regex = mentionRegex(this.siteSettings.unicode_usernames);
-    const mentions = [];
-    let mentionsLeft = true;
-
-    while (mentionsLeft) {
-      const matches = message.match(regex);
-
-      if (matches) {
-        const mention = matches[1] || matches[2];
-        mentions.push(mention);
-        message = message.replaceAll(`${mention}`, "");
-
-        if (mentions.length > this.siteSettings.max_mentions_per_chat_message) {
-          mentionsLeft = false;
-        }
-      } else {
-        mentionsLeft = false;
-      }
-    }
-
-    return mentions;
   }
 
   _recordNewWarnings(newMentions, mentions) {
