@@ -114,7 +114,9 @@ export default class ChatComposerWarningsTracker extends Service {
       } else {
         mentionsLeft = false;
       }
-    });
+    }
+
+    return mentions;
   }
 
   _recordNewWarnings(newMentions, mentions) {
